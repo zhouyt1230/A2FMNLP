@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from collections import defaultdict
 from tqdm import tqdm
-from model.MWTPModel import MWTPModel
+from model.MWTPModel import A2FMNLPModel
 from args import parse_args
 import time
 from itertools import cycle, islice
