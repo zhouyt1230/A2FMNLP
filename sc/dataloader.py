@@ -79,7 +79,7 @@ def get_weak_info(datsetname, idx_train, idx_val, idx_test, ori_adj, labels, lay
     return [[idx_test_weak_loaders, max_len_w],idx_test_wlen]
 
 def get_dataset(dataname='ckm'):
-    data_get = np.load(rf'C:\Users\zhouyitian\Desktop\3revise_model\data_pkl\{dataname}.npz')
+    data_get = np.load(rf'C:\Users\zhouyitian\Desktop\3revise_model\data\{dataname}.npz')
     ori_adj, break_adj, feats = data_get['ori_adj'], data_get['adj'], data_get['feat_data']
     if dataname == 'ckm' or dataname == 'amazon' or dataname == 'lazega':
         idx_train = [data_get['idx_train'], data_get['idx_train1'], data_get['idx_train2']]
