@@ -22,8 +22,7 @@ class MWTPModel(nn.Module):
         self.num_samples1 = 10
         self.num_samples2 = 10
 
-        # self.enc = nn.ModuleList([GATLayer(torch.Tensor(feat_data[i]),adj_lists[i], self.emb_dim) for i in range(layer_num)])
-        #self.enc = nn.ModuleList([GAT(torch.tensor(feat_data[i],dtype=torch.float),torch.tensor(adjs[i]),nfeat=feat_data.shape[2],nhid=8,nclass=emb_dim,dropout=0.6,nheads=8,alpha=0.2,device=device) for i in range(layer_num)])
+        #self.enc = nn.ModuleList([GAT(torch.tensor(feat_data[i],dtype=torch.float),torch.tensor(adjs[i]),nfeat=feat_data.shape[2],nhid=emb_dim,nclass=emb_dim,dropout=0.6,nheads=8,alpha=0.2,device=device) for i in range(layer_num)])
         self.enc = nn.ModuleList([GraphTrans(torch.tensor(feat_data[i],dtype=torch.float),torch.tensor(adjs[i]),nfeat=feat_data.shape[2],nhid=8,nclass=128,dropout=0.5,heads=8,device=device) for i in range(layer_num)])
         self.enc_two = nn.ModuleList([ImprovedFCStacked(feat_data.shape[2], [256, 128, 64], emb_dim,
                                     torch.tensor(feat_data[l],dtype=torch.float), device=self.device)
@@ -31,7 +30,6 @@ class MWTPModel(nn.Module):
 
         self.MWTP = SupervisedGraphSage(self.enc, self.enc_two, emb_dim, layer_num,device,ablation,model_type )
         self.MWTP.to(device)
-        #self.optimizer = torch.optim.SGD(filter(lambda p: p.requires_grad, self.MWTP.parameters()), lr=lr)#, weight_decay=1e-4)
         self.optimizer = torch.optim.Adam(
             filter(lambda p: p.requires_grad, self.MWTP.parameters()),
             lr=0.001,  # 推荐初始学习率比SGD小，通常设为 1e-3
